@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>使い方・よくある質問｜__TITLE__｜yorozu-craft</title>
-  <meta name="description" content="__TITLE__の使い方、計算の根拠、よくある質問、ご利用上の注意。">
+  <title>都道府県の覚え方のコツと遊ばせ方（おうちのかたへ）｜こども都道府県クイズ｜yorozu-craft</title>
+  <meta name="description" content="子ども向け都道府県クイズの遊ばせ方と、都道府県の覚え方のコツ（地方ごと・形・名物と結びつける）。ひらがな・ふりがな・漢字の3段階と読み上げで、未就学から小学生まで。">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yorozu-craft.com/__REPO__/guide.html">
+  <link rel="canonical" href="https://yorozu-craft.com/todofuken-quiz/guide.html">
 
-  <meta property="og:title" content="使い方・よくある質問｜__TITLE__">
-  <meta property="og:description" content="__TITLE__の使い方、計算の根拠、よくある質問、ご利用上の注意。">
+  <meta property="og:title" content="都道府県の覚え方のコツと遊ばせ方（おうちのかたへ）｜こども都道府県クイズ">
+  <meta property="og:description" content="子ども向け都道府県クイズの遊ばせ方と、都道府県の覚え方のコツ（地方ごと・形・名物と結びつける）。ひらがな・ふりがな・漢字の3段階と読み上げで、未就学から小学生まで。">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://yorozu-craft.com/__REPO__/guide.html">
+  <meta property="og:url" content="https://yorozu-craft.com/todofuken-quiz/guide.html">
   <meta property="og:site_name" content="yorozu-craft">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:image" content="https://yorozu-craft.com/__REPO__/og-image.png">
+  <meta property="og:image" content="https://yorozu-craft.com/todofuken-quiz/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -27,13 +27,51 @@
     "mainEntity": [
       {
         "@type": "Question",
-        "name": "無料で使えますか？",
-        "acceptedAnswer": { "@type": "Answer", "text": "はい。会員登録やインストールも不要で、ブラウザだけで使えます。" }
+        "name": "何歳から遊べますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "ひらがなが読めるようになったら「さがしてタッチ」から始められます。読み上げを使えば、字が読めなくても耳で聞いて遊べます。漢字の段階や「県庁所在地」「名物・名所」は、小学校で都道府県を習うころ（中学年ごろ）からがおすすめです。"
+        }
       },
       {
         "@type": "Question",
-        "name": "入力した内容はどこに保存されますか？",
-        "acceptedAnswer": { "@type": "Answer", "text": "お使いのブラウザの中にだけ保存され、外部のサーバーには送信されません。" }
+        "name": "無料ですか？ 登録は必要ですか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "無料で、登録もいりません。一度開けば、電波の届かない場所でも遊べます（オフライン対応）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "遊ぶ画面に広告は出ますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "お子さまが遊ぶ画面には広告を出していません。広告は、このページ（おうちのかた向けの説明ページ）にだけ表示します。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "記録はどこに保存されますか？ 消すには？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "「おぼえた ちず」の記録と設定は、お使いのブラウザの中にだけ保存され、外部には送信されません。消すときは「おぼえた ちず」の画面の一番下のボタンを 1 秒ほど長押しして、確認に答えてください（お子さまの誤操作を防ぐため長押しにしています）。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "地図の北方領土や離島はどうなっていますか？",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "北方領土（歯舞群島・色丹島・国後島・択捉島）は北海道に含めています。沖縄県と鹿児島県の奄美の島々は、左上の枠の中に大きめに表示しています。東京都の伊豆諸島・小笠原諸島や、ごく小さな島は、タッチしやすくするため省いています。"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "読み上げの声が出ません",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "端末やブラウザによっては、日本語の読み上げに対応していないことがあります。その場合は「よみあげ」の設定が表示されません。端末の設定で日本語の音声を追加すると使えることがあります。"
+        }
       }
     ]
   }
@@ -51,40 +89,91 @@
 <body>
 
   <header class="app-header">
-    <h1>__TITLE__ の使い方</h1>
-    <p class="subtitle">使い方・計算の根拠・よくある質問・ご利用上の注意</p>
+    <h1>おうちのかたへ</h1>
+    <p class="subtitle">こども都道府県クイズの遊ばせ方・覚え方のコツ・よくある質問</p>
   </header>
 
   <main class="app-main">
 
-    <p class="card" style="text-align:center"><a href="./">▶ __TITLE__ を使う</a></p>
+    <p class="card" style="text-align:center"><a href="./">▶ こども都道府県クイズで遊ぶ</a></p>
+
+    <nav class="card content" aria-label="このページの目次">
+      <h2>目次</h2>
+      <ol>
+        <li><a href="#howto">遊びかた</a></li>
+        <li><a href="#age">年齢に合わせた遊ばせ方</a></li>
+        <li><a href="#tips">都道府県の覚え方のコツ</a></li>
+        <li><a href="#speech">読み上げについて</a></li>
+        <li><a href="#basis">地図とデータについて</a></li>
+        <li><a href="#faq">よくある質問</a></li>
+        <li><a href="#notes">ご利用上の注意・データの扱い</a></li>
+        <li><a href="#changelog">更新履歴</a></li>
+      </ol>
+    </nav>
 
     <article class="card content" id="howto">
-      <h2>使い方</h2>
-      <ol>
-        <li>（手順を書く）</li>
-      </ol>
+      <h2>遊びかた</h2>
+      <ul>
+        <li><strong>さがしてタッチ</strong>：「ほっかいどう は どこ？」と聞かれた都道府県を、地図でタッチします。</li>
+        <li><strong>なまえあて</strong>：地図で光っている都道府県の名前を、4 つから選びます。</li>
+        <li><strong>かたちあて</strong>：都道府県の形だけを見て、名前を選びます（いちばん難しいモードです）。</li>
+        <li><strong>県庁所在地</strong>：都道府県の県庁所在地を 4 つから選びます（東京都は都庁が新宿区にあるため出題しません）。</li>
+        <li><strong>名物・名所</strong>：「りんご」「東大寺の大仏」などの名物・名所・歴史から、どの都道府県かを選びます。</li>
+      </ul>
+      <p>1 回 10 問です。「ちほう」を選ぶと、その地方だけが大きく表示され、その地方から出題します。答えるたびに、その都道府県の県庁所在地と名物・名所を表示します。</p>
+      <p>同じ都道府県に 3 回正解すると、「おぼえた ちず」に色がつきます。47 都道府県ぜんぶに色をつけるのを目標にしてみてください。</p>
     </article>
 
-    <!-- 制度・単価など時点のある値を使うツールだけ残す。値は constants.js、画面にも時点を出す -->
+    <article class="card content" id="age">
+      <h2>年齢に合わせた遊ばせ方</h2>
+      <ul>
+        <li><strong>ひらがなを読み始めたころ</strong>：「ひらがな」＋「よみあげ」で、「さがしてタッチ」から。まずは自分の住んでいる地方だけに絞ると、地図が大きくなってタッチしやすくなります。</li>
+        <li><strong>小学校低学年</strong>：「ふりがな」にして、漢字の形に少しずつ慣れていきます。「なまえあて」で、地図の位置と名前を結びつけます。</li>
+        <li><strong>都道府県を習う学年から</strong>：「かんじ」にして、「県庁所在地」「名物・名所」「かたちあて」に挑戦します。</li>
+      </ul>
+      <p>一度にたくさん覚えようとせず、1 日 1 回（10 問）くらいを続けるのがおすすめです。</p>
+    </article>
+
+    <article class="card content" id="tips">
+      <h2>都道府県の覚え方のコツ</h2>
+      <h3>地方ごとに覚える</h3>
+      <p>47 を一度に覚えるより、北海道・東北・関東・中部・近畿・中国・四国・九州沖縄の 8 つの地方に分けると覚えやすくなります。このクイズでも「ちほう」で絞れます。</p>
+      <h3>形を何かに見立てる</h3>
+      <p>都道府県の形を、身近なものに見立てて覚える方法があります。たとえば、長い形、角のある形など、お子さまと「何に見える？」と話しながら「かたちあて」で遊ぶと記憶に残りやすくなります。</p>
+      <h3>名物や行ったことのある場所と結びつける</h3>
+      <p>「りんごの青森」「たこ焼きの大阪」のように、食べ物や旅行で行った場所と結びつけると、名前と位置がつながります。「名物・名所」のモードで、答えたあとに出る説明も一緒に読んでみてください。</p>
+      <h3>おうちの地図と一緒に</h3>
+      <p>ニュースや天気予報で都道府県の名前が出たときに、「どこだっけ？」とクイズの地図で探してみるのも効果的です。</p>
+    </article>
+
+    <article class="card content" id="speech">
+      <h2>読み上げについて</h2>
+      <p>読み上げは、お使いの端末・ブラウザに入っている音声読み上げの機能（Web Speech API）を使います。端末やブラウザによっては、音声を作るために、読み上げる文章を外部のサービスに送る場合があります。読み上げるのは問題文と都道府県名だけで、お子さまが入力した内容はありません。気になる場合は「よみあげ」をオフにしてください。</p>
+    </article>
+
     <article class="card content" id="basis">
-      <h2>根拠と確認日</h2>
-      <dl class="info-list">
-        <dt>根拠</dt>
-        <dd>（法令・公式ページの名前）</dd>
-        <dt>最終確認日</dt>
-        <dd><time datetime="__DATE__">__DATE_JA__</time></dd>
-      </dl>
-      <p class="small">制度や単価は変わることがあります。最終確認日から時間がたっている場合は、公式ページで最新の情報をご確認ください。</p>
+      <h2>地図とデータについて</h2>
+      <ul>
+        <li><strong>地図</strong>：Natural Earth（<a href="https://www.naturalearthdata.com/" target="_blank" rel="noopener">naturalearthdata.com</a>、パブリックドメイン）の行政区画のデータを、タッチしやすいように簡略化して使っています。北方領土は北海道に含めています。</li>
+        <li><strong>県庁所在地・名物・名所</strong>：年によって変わらない、よく知られたものを選んで、このツールのために書いています。「生産量日本一」のように統計で変わることは入れていません。</li>
+      </ul>
     </article>
 
     <article class="card content" id="faq">
       <h2>よくある質問</h2>
       <dl class="faq">
-        <dt>無料で使えますか？</dt>
-        <dd>はい。会員登録やインストールも不要で、ブラウザだけで使えます。</dd>
-        <dt>入力した内容はどこに保存されますか？</dt>
-        <dd>お使いのブラウザの中にだけ保存され、外部のサーバーには送信されません。</dd>
+        <dt>何歳から遊べますか？</dt>
+        <dd>ひらがなが読めるようになったら「さがしてタッチ」から始められます。読み上げを使えば、字が読めなくても耳で聞いて遊べます。漢字の段階や「県庁所在地」「名物・名所」は、小学校で都道府県を習うころ（中学年ごろ）からがおすすめです。</dd>
+        <dt>無料ですか？ 登録は必要ですか？</dt>
+        <dd>無料で、登録もいりません。一度開けば、電波の届かない場所でも遊べます（オフライン対応）。</dd>
+        <dt>遊ぶ画面に広告は出ますか？</dt>
+        <dd>お子さまが遊ぶ画面には広告を出していません。広告は、このページ（おうちのかた向けの説明ページ）にだけ表示します。</dd>
+        <dt>記録はどこに保存されますか？ 消すには？</dt>
+        <dd>「おぼえた ちず」の記録と設定は、お使いのブラウザの中にだけ保存され、外部には送信されません。消すときは「おぼえた ちず」の画面の一番下のボタンを 1 秒ほど長押しして、確認に答えてください（お子さまの誤操作を防ぐため長押しにしています）。</dd>
+        <dt>地図の北方領土や離島はどうなっていますか？</dt>
+        <dd>北方領土（歯舞群島・色丹島・国後島・択捉島）は北海道に含めています。沖縄県と鹿児島県の奄美の島々は、左上の枠の中に大きめに表示しています。東京都の伊豆諸島・小笠原諸島や、ごく小さな島は、タッチしやすくするため省いています。</dd>
+        <dt>読み上げの声が出ません</dt>
+        <dd>端末やブラウザによっては、日本語の読み上げに対応していないことがあります。その場合は「よみあげ」の設定が表示されません。端末の設定で日本語の音声を追加すると使えることがあります。</dd>
       </dl>
     </article>
 
@@ -92,18 +181,19 @@
     <article class="card content" id="notes">
       <h2>ご利用上の注意・データの扱い</h2>
       <ul>
-        <li><strong>保存されるデータ</strong>：（何をブラウザに保存するか。保存しないならそう書く）</li>
-        <li><strong>共有リンク</strong>：（共有機能があれば、リンクに何が含まれるか。URL の「#」以降に入るのでサーバーには送信されない）</li>
-        <li><strong>結果の扱い</strong>：（計算結果は目安であること、最終的な確認先など）</li>
+        <li><strong>保存されるデータ</strong>：設定（文字の段階・地方・音）と、都道府県ごとの正解・不正解の回数を、お使いのブラウザにだけ保存します。外部には送信しません。</li>
+        <li><strong>オフライン</strong>：遊ぶ画面・地図・データをブラウザに保存して、電波の届かない場所でも遊べるようにしています（保存するのはツールのファイルだけです）。</li>
+        <li><strong>広告</strong>：お子さまが遊ぶ画面には広告を表示しません。広告はこのページにだけ表示します。</li>
+        <li><strong>読み上げ</strong>：上の「読み上げについて」をご覧ください。</li>
       </ul>
-      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=__REPO__" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
+      <p><a href="https://docs.google.com/forms/d/e/1FAIpQLSd8B90qh5lEIyr25iw1jOjdQjOyaPZ1_z2wMB4kH-EmEeJYWw/viewform?usp=pp_url&amp;entry.585564634=todofuken-quiz" target="_blank" rel="noopener">ご要望・不具合の報告（Google フォーム）</a>：いただいた内容をもとに直します。お返事はしていません。</p>
       <p>サイト全体の運営者情報・免責事項は<a href="../about.html">こちら</a>、プライバシーポリシーは<a href="../privacy-policy.html">こちら</a>です（すべてのツールで共通）。</p>
     </article>
 
     <article class="card content" id="changelog">
       <h2>更新履歴</h2>
       <ul>
-        <li><time datetime="__DATE__">__DATE_JA__</time> 公開</li>
+        <li><time datetime="2026-09-23">2026年9月23日</time> 公開</li>
       </ul>
     </article>
 
@@ -113,7 +203,7 @@
     <nav class="footer-nav" aria-label="フッターナビゲーション">
       <ul>
         <li><a href="../">yorozu-craft トップ</a></li>
-        <li><a href="./">__TITLE__</a></li>
+        <li><a href="./">こども都道府県クイズ</a></li>
         <li><a href="./guide.html" aria-current="page">使い方・よくある質問</a></li>
         <li><a href="../about.html">運営者情報</a></li>
         <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>
