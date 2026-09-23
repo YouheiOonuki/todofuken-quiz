@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>__TITLE__｜yorozu-craft</title>
-  <meta name="description" content="__DESCRIPTION__">
+  <title>こども都道府県クイズ｜yorozu-craft</title>
+  <meta name="description" content="日本地図をタッチして都道府県をおぼえるクイズ。ひらがな・ふりがな・漢字の3段階、読み上げつき。県庁所在地や名物・名所のクイズも。登録不要・無料。">
   <meta name="robots" content="index, follow">
-  <link rel="canonical" href="https://yorozu-craft.com/__REPO__/">
+  <link rel="canonical" href="https://yorozu-craft.com/todofuken-quiz/">
 
-  <meta property="og:title" content="__TITLE__｜yorozu-craft">
-  <meta property="og:description" content="__DESCRIPTION__">
+  <meta property="og:title" content="こども都道府県クイズ｜yorozu-craft">
+  <meta property="og:description" content="日本地図をタッチして都道府県をおぼえるクイズ。ひらがな・ふりがな・漢字の3段階、読み上げつき。県庁所在地や名物・名所のクイズも。登録不要・無料。">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://yorozu-craft.com/__REPO__/">
+  <meta property="og:url" content="https://yorozu-craft.com/todofuken-quiz/">
   <meta property="og:site_name" content="yorozu-craft">
   <meta property="og:locale" content="ja_JP">
-  <meta property="og:image" content="https://yorozu-craft.com/__REPO__/og-image.png">
+  <meta property="og:image" content="https://yorozu-craft.com/todofuken-quiz/og-image.png">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
@@ -25,9 +25,9 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "__TITLE__",
-    "description": "__DESCRIPTION__",
-    "url": "https://yorozu-craft.com/__REPO__/",
+    "name": "こども都道府県クイズ",
+    "description": "日本地図をタッチして都道府県をおぼえるクイズ。ひらがな・ふりがな・漢字の3段階、読み上げつき。県庁所在地や名物・名所のクイズも。登録不要・無料。",
+    "url": "https://yorozu-craft.com/todofuken-quiz/",
     "applicationCategory": "UtilitiesApplication",
     "operatingSystem": "All",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "JPY" },
@@ -35,40 +35,104 @@
   }
   </script>
 
-  <!-- Google AdSense（サイト所有確認 + 広告配信スクリプト）。全画面で操作する画面なら script を消して meta だけ残す -->
+  <!-- Google AdSense: 子どもが遊ぶ画面なので meta（サイト所有確認）だけ。広告は保護者向けの guide.html に出す（決定 D18） -->
   <meta name="google-adsense-account" content="ca-pub-5375267956079717">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5375267956079717"
-     crossorigin="anonymous"></script>
 
   <link rel="icon" href="./favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./apple-touch-icon.png">
-  <!-- PWA-BEGIN -->
   <link rel="manifest" href="./manifest.webmanifest">
-  <!-- PWA-END -->
   <link rel="stylesheet" href="./style.css">
+  <!-- メニューの文字と地方のボタンは main.js で描くので、描き終わるまで本体を見えなくしてレイアウトのずれ（CLS）を防ぐ。3 秒たったら必ず見せる -->
+  <script>document.documentElement.classList.add('js-loading');setTimeout(function(){document.documentElement.classList.remove('js-loading');},3000);</script>
 </head>
 <body>
 
   <header class="app-header">
-    <h1>__TITLE__</h1>
-    <p class="subtitle">__DESCRIPTION__</p>
+    <h1>こども都道府県クイズ</h1>
+    <p class="subtitle">日本地図をタッチして都道府県をおぼえるクイズ。ひらがな・ふりがな・漢字の3段階、読み上げつき。県庁所在地や名物・名所のクイズも。登録不要・無料。</p>
   </header>
 
-  <main class="app-main">
+  <main class="app-main" id="app">
 
-    <!-- ここにツール本体を書く（例: 金額を 100 円単位で切り上げる） -->
-    <section class="card" aria-labelledby="tool-heading">
-      <h2 id="tool-heading">計算</h2>
-      <div class="field">
-        <label for="amount">金額</label>
-        <p class="hint">入力内容はこの端末のブラウザにだけ保存され、外部には送信されません。</p>
-        <input type="number" id="amount" inputmode="numeric" placeholder="例：1234">
+    <!-- メニュー -->
+    <section id="scr-menu" class="screen" aria-labelledby="h-menu">
+      <h2 id="h-menu" class="visually-hidden">あそびかたをえらぶ</h2>
+      <div class="modes" id="modes">
+        <button type="button" class="mode" data-mode="touch"><span class="mode-icon" aria-hidden="true">👆</span><span class="mode-title">さがして タッチ</span><span class="mode-desc">ちずで さがそう</span></button>
+        <button type="button" class="mode" data-mode="name"><span class="mode-icon" aria-hidden="true">💡</span><span class="mode-title">なまえ あて</span><span class="mode-desc">ひかっている ところは？</span></button>
+        <button type="button" class="mode" data-mode="shape"><span class="mode-icon" aria-hidden="true">🧩</span><span class="mode-title">かたち あて</span><span class="mode-desc">むずかしいよ</span></button>
+        <button type="button" class="mode" data-mode="capital"><span class="mode-icon" aria-hidden="true">🏛️</span><span class="mode-title" data-ruby="{県庁所在地|けんちょうしょざいち}"></span><span class="mode-desc" data-ruby="{県|けん}の まんなかの まち"></span></button>
+        <button type="button" class="mode" data-mode="fact"><span class="mode-icon" aria-hidden="true">🍎</span><span class="mode-title" data-ruby="{名物|めいぶつ}・{名所|めいしょ}"></span><span class="mode-desc" data-ruby="たべもの・{歴史|れきし}"></span></button>
+        <button type="button" class="mode mode-sub" id="open-collection"><span class="mode-icon" aria-hidden="true">🗾</span><span class="mode-title">おぼえた ちず</span><span class="mode-desc" id="learned-count"></span></button>
       </div>
-      <p>結果：<strong id="result" aria-live="polite">—</strong></p>
-      <button type="button" id="share" class="btn">結果を開くリンクをコピー</button>
+
+      <div class="settings">
+        <fieldset>
+          <legend>ちほう（ばしょ）</legend>
+          <div class="chips" id="regions"></div>
+        </fieldset>
+        <fieldset>
+          <legend>もじ</legend>
+          <div class="seg" id="levels">
+            <label><input type="radio" name="level" value="kana"> ひらがな</label>
+            <label><input type="radio" name="level" value="ruby"> ふりがな</label>
+            <label><input type="radio" name="level" value="kanji"> かんじ</label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend>おと</legend>
+          <div class="seg">
+            <label><input type="checkbox" id="opt-sound"> こうかおん</label>
+            <label id="speech-opt"><input type="checkbox" id="opt-speech"> よみあげ</label>
+          </div>
+        </fieldset>
+      </div>
+      <p class="parent-link"><a href="./guide.html">おうちのかたへ（あそびかた・おぼえかたのコツ）</a></p>
     </section>
 
-    <p class="small"><a href="./guide.html">使い方・よくある質問・ご利用上の注意</a></p>
+    <!-- 出題 -->
+    <section id="scr-play" class="screen" hidden aria-labelledby="question">
+      <div class="play-bar">
+        <span id="progress" class="progress"></span>
+        <span id="score" class="score"></span>
+        <button type="button" class="btn-ghost" id="quit">やめる</button>
+      </div>
+      <div class="question-row">
+        <p id="question" class="question" aria-live="polite"></p>
+        <button type="button" class="speak" id="speak" aria-label="もんだいを よみあげる">🔊</button>
+      </div>
+      <div id="map-wrap" class="map-wrap"></div>
+      <div id="shape-wrap" class="shape-wrap" hidden></div>
+      <div id="choices" class="choices"></div>
+      <div id="feedback" class="feedback" hidden aria-live="assertive">
+        <p id="fb-title" class="fb-title"></p>
+        <p id="fb-body" class="fb-body"></p>
+        <button type="button" class="btn-big" id="next">つぎへ</button>
+      </div>
+    </section>
+
+    <!-- 結果 -->
+    <section id="scr-result" class="screen" hidden aria-labelledby="h-result">
+      <h2 id="h-result" class="result-title"></h2>
+      <p id="result-stars" class="stars" aria-hidden="true"></p>
+      <div id="result-miss" class="result-miss"></div>
+      <div class="btn-col">
+        <button type="button" class="btn-big" id="again">もういちど</button>
+        <button type="button" class="btn-big btn-sub" id="to-menu">メニューへ</button>
+      </div>
+    </section>
+
+    <!-- おぼえた地図 -->
+    <section id="scr-collection" class="screen" hidden aria-labelledby="h-col">
+      <h2 id="h-col" class="result-title">おぼえた ちず</h2>
+      <p id="col-count" class="col-count"></p>
+      <div id="col-map" class="map-wrap"></div>
+      <p class="small">3かい せいかいすると いろが つくよ。</p>
+      <div class="btn-col">
+        <button type="button" class="btn-big btn-sub" id="col-back">メニューへ</button>
+      </div>
+      <p class="parent-reset"><button type="button" class="btn-ghost" id="reset">おうちのかたへ：きろくを けす（ながおし）</button></p>
+    </section>
 
   </main>
 
@@ -76,7 +140,7 @@
     <nav class="footer-nav" aria-label="フッターナビゲーション">
       <ul>
         <li><a href="../">yorozu-craft トップ</a></li>
-        <li><a href="./" aria-current="page">__TITLE__</a></li>
+        <li><a href="./" aria-current="page">こども都道府県クイズ</a></li>
         <li><a href="./guide.html">使い方・よくある質問</a></li>
         <li><a href="../about.html">運営者情報</a></li>
         <li><a href="../privacy-policy.html">プライバシーポリシー</a></li>
@@ -85,7 +149,7 @@
     <p>&copy; 2026 yorozu-craft. All rights reserved.</p>
   </footer>
 
-  <script src="./constants.js"></script>
+  <script src="./data.js"></script>
   <script src="./calc.js"></script>
   <script src="./main.js"></script>
   <!-- Cloudflare Web Analytics（Cookie を使わないアクセス解析） --><script type='module' src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "b79bf821e1fd4b6683866d493b1de426"}'></script><!-- End Cloudflare Web Analytics -->
