@@ -25,9 +25,15 @@
     },
   };
 
-  var settings = Object.assign({ level: 'kana', regions: [], sound: true, speech: false }, store.get('settings', {}));
-  if (['kana', 'ruby', 'kanji'].indexOf(settings.level) < 0) settings.level = 'kana';
-  if (!Array.isArray(settings.regions)) settings.regions = [];
+  // 設定を今の形にそろえる（起動時と、ファイルから読み込んだとき）
+  function normalizeSettings(saved) {
+    var s = Object.assign({ level: 'kana', regions: [], sound: true, speech: false }, saved);
+    if (['kana', 'ruby', 'kanji'].indexOf(s.level) < 0) s.level = 'kana';
+    if (!Array.isArray(s.regions)) s.regions = [];
+    s.regions = s.regions.filter(function (k) { return D.REGIONS.some(function (r) { return r.key === k; }); });
+    return { level: s.level, regions: s.regions, sound: s.sound !== false, speech: s.speech === true };
+  }
+  var settings = normalizeSettings(store.get('settings', {}));
   var stats = store.get('stats', {}) || {};
 
   function $(id) { return document.getElementById(id); }
@@ -322,6 +328,37 @@
     });
   });
   $('col-back').addEventListener('click', function () { renderMenu(); show('scr-menu'); });
+
+  // --- ファイルへの書き出し・読み込み（README「ツールを追加するとき」20。決定 D31） ---
+  // 中身はこの端末の中で作り、どこにも送信しない。機種変更のときはファイルを移して読み込む
+  var TOOL = 'todofuken-quiz';
+  $('backup-export').addEventListener('click', function () {
+    var blob = new Blob([JSON.stringify(Calc.buildBackup(TOOL, { settings: settings, stats: stats }), null, 2)], { type: 'application/json' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = Calc.backupFileName(TOOL);
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+    $('backup-msg').textContent = 'ファイルに書き出しました。機種変更のときは、このファイルを新しい端末に移して「ファイルから よみこむ」を押してください。';
+  });
+  $('backup-import').addEventListener('click', function () { $('backup-file').click(); });
+  $('backup-file').addEventListener('change', function () {
+    var file = this.files && this.files[0];
+    this.value = '';
+    if (!file) return;
+    if (file.size > 1024 * 1024) { $('backup-msg').textContent = 'ファイルが大きすぎます。このツールで書き出したファイルを選んでください。'; return; }
+    file.text().then(function (text) {
+      var r = Calc.parseBackup(text, TOOL, ['stats']);
+      if (!r.ok) { $('backup-msg').textContent = r.error; return; }
+      if (!window.confirm('きろく（おぼえた ちず）と せっていを、ファイルの ないようで おきかえますか？')) return;
+      settings = normalizeSettings(r.data.settings);
+      stats = Calc.normalizeStats(r.data.stats);
+      saveSettings(); store.set('stats', stats);
+      renderMenu();
+      $('open-collection').click();
+      $('backup-msg').textContent = 'ファイルから読み込みました。';
+    }, function () { $('backup-msg').textContent = 'ファイルを読み取れませんでした。'; });
+  });
 
   // 記録を消すのは保護者だけ: 1 秒の長押しで確認を出す（子どもの誤操作を防ぐ）
   (function () {
