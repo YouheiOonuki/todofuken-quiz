@@ -360,22 +360,8 @@
     }, function () { $('backup-msg').textContent = 'ファイルを読み取れませんでした。'; });
   });
 
-  // 記録を消すのは保護者だけ: 1 秒の長押しで確認を出す（子どもの誤操作を防ぐ）
-  (function () {
-    var timer = null;
-    var btn = $('reset');
-    function down() { timer = setTimeout(function () {
-      timer = null;
-      if (window.confirm('きろく（おぼえた ちず）を ぜんぶ けしますか？')) {
-        stats = {}; store.set('stats', stats);
-        $('open-collection').click();
-      }
-    }, 1000); }
-    function up() { if (timer) { clearTimeout(timer); timer = null; } }
-    btn.addEventListener('pointerdown', down);
-    ['pointerup', 'pointerleave', 'pointercancel'].forEach(function (ev) { btn.addEventListener(ev, up); });
-    btn.addEventListener('contextmenu', function (e) { e.preventDefault(); });
-  })();
+  // 記録を消すのは保護者だけ: 全ツール共通の「保存した内容をすべて消す」ボタン（reset-storage.js）を
+  // data-reset-hold（1 秒の長押しで確認を出す）で置いている（子どもの誤操作を防ぐ）
 
   renderMenu();
   show('scr-menu');
