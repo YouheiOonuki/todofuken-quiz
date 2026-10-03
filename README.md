@@ -48,7 +48,7 @@ yorozu-craft のツールの1つです（共通ルールは [youheioonuki.github
 | `data.js` | 47 都道府県のデータ |
 | `map.svg` / `tools/make-map.py` | 地図と、その作り方 |
 | `main.js` | 画面の制御・地図・読み上げ・効果音・保存 |
-| `style.css` | 見た目（和紙風の配色、ダークモード対応） |
+| `style.css` | 見た目（和紙風の配色、ダークモード対応）。先頭の `yorozu-common:begin`〜`end` はサイト共通の部品とトークン（手で直さない。正本は youheioonuki.github.io の `tools/common/yorozu-common.css`、`tools/sync-common.mjs` で配る） |
 | `sw.js` / `manifest.webmanifest` | オフライン対応 |
 | `404.html` | ツール配下の存在しない URL で出るページ（サイト共通のもの） |
 | `favicon.svg` / `apple-touch-icon.png` / `og-image.png` | アイコン / ホーム画面用アイコン / SNS 共有用画像（1200×630） |
