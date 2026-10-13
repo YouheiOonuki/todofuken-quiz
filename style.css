@@ -128,7 +128,6 @@ a { color: var(--accent); }
 /* ===== こども都道府県クイズ固有 ===== */
 .js-loading .app-main { visibility: hidden; }
 body.playing .app-header { padding: 0.5rem 1rem; }
-body.playing .app-header .subtitle { display: none; }
 body.playing .app-header h1 { font-size: 1.05rem; }
 :root { --sea: #d6ecf5; --land: #f3e6d8; --land-line: #8b4513; --ok: #2e7d32; --ng: #c62828; --target: #f2b233; --learned: #7cb342; }
 @media (prefers-color-scheme: dark) {
