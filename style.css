@@ -227,7 +227,7 @@ rt { font-size: 0.55em; }
 .map-wrap path.target { fill: var(--target); animation: blink 1s ease-in-out infinite alternate; }
 .map-wrap path.ok { fill: var(--ok); }
 .map-wrap path.ng { fill: var(--ng); }
-.map-wrap path.learned { fill: var(--learned); }
+.map-wrap path.learned { fill: var(--learned); stroke: var(--step-ink); }   /* 3 回以上の県どうしの境を見せる。--land-line では塗りとの対比がライト 2.83・ダーク 1.83（Q-390） */
 .map-wrap path.step1 { fill: url(#step1-pat); }
 .map-wrap path.step2 { fill: url(#step2-pat); }
 .map-wrap .step-bg1 { fill: var(--step1); }
