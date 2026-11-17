@@ -103,6 +103,13 @@
     return Object.keys(stats || {}).filter(function (k) { return stats[k].ok >= t; }).map(Number).sort(function (a, b) { return a - b; });
   }
 
+  /** 「おぼえた ちず」の段: 正解 0 回・1 回・2 回・threshold 回以上を 0〜3 に（3 が「おぼえた」と同じ） */
+  function step(r, threshold) {
+    var t = threshold || 3;
+    var ok = r && r.ok > 0 ? Math.floor(r.ok) : 0;
+    return ok >= t ? 3 : Math.min(ok, 2);
+  }
+
   /** ファイルから読み込んだ記録を今の形にそろえる（県コード 1〜47 と、0 以上の整数の回数だけ残す） */
   function normalizeStats(stats) {
     var out = {};
@@ -156,7 +163,7 @@
     return { ok: true, data: data };
   }
 
-  var Calc = { ruby: ruby, rng: rng, shuffle: shuffle, MODES: MODES, candidates: candidates, makeRound: makeRound, isCorrect: isCorrect, record: record, learned: learned, normalizeStats: normalizeStats, backupFileName: backupFileName, buildBackup: buildBackup, parseBackup: parseBackup };
+  var Calc = { ruby: ruby, rng: rng, shuffle: shuffle, MODES: MODES, candidates: candidates, makeRound: makeRound, isCorrect: isCorrect, record: record, learned: learned, step: step, normalizeStats: normalizeStats, backupFileName: backupFileName, buildBackup: buildBackup, parseBackup: parseBackup };
   if (typeof module !== 'undefined' && module.exports) module.exports = Calc;
   else root.Calc = Calc;
 })(this);

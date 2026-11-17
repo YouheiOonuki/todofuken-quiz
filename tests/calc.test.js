@@ -101,3 +101,10 @@ test('地図: map.svg に 47 の都道府県（data-code 1〜47）がある', ()
   assert.deepEqual(codes, Array.from({ length: 47 }, (_, i) => i + 1));
   assert.match(svg, /Natural Earth/);
 });
+
+test('おぼえた ちず の段: 正解 0・1・2・3・10 回 → 0・1・2・3・3（3 が「おぼえた」と同じ）（Q-309）', () => {
+  assert.deepEqual([0, 1, 2, 3, 10].map((ok) => C.step({ ok, ng: 0 })), [0, 1, 2, 3, 3]);
+  assert.equal(C.step(undefined), 0);
+  const stats = { 1: { ok: 3, ng: 0 }, 2: { ok: 2, ng: 1 }, 3: { ok: 1, ng: 0 }, 5: { ok: 0, ng: 2 }, 13: { ok: 10, ng: 4 } };
+  assert.deepEqual(Object.keys(stats).filter((k) => C.step(stats[k]) === 3).map(Number), C.learned(stats));
+});

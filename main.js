@@ -318,11 +318,29 @@
   $('to-menu').addEventListener('click', function () { renderMenu(); show('scr-menu'); });
 
   // --- おぼえた地図 ---
+  // 正解 1 回は点、2 回は斜線の柄（色だけで見分けさせない）。色は style.css の --step1・--step2・--step-ink
+  function addStepPatterns(svg) {
+    var NS = 'http://www.w3.org/2000/svg';
+    function mk(tag, attrs) { var e = document.createElementNS(NS, tag); Object.keys(attrs).forEach(function (k) { e.setAttribute(k, attrs[k]); }); return e; }
+    var defs = mk('defs', {});
+    var p1 = mk('pattern', { id: 'step1-pat', patternUnits: 'userSpaceOnUse', width: 22, height: 22 });
+    p1.appendChild(mk('rect', { 'class': 'step-bg1', width: 22, height: 22 }));
+    p1.appendChild(mk('circle', { 'class': 'step-ink', cx: 11, cy: 11, r: 5 }));
+    var p2 = mk('pattern', { id: 'step2-pat', patternUnits: 'userSpaceOnUse', width: 16, height: 16, patternTransform: 'rotate(45)' });
+    p2.appendChild(mk('rect', { 'class': 'step-bg2', width: 16, height: 16 }));
+    p2.appendChild(mk('rect', { 'class': 'step-ink', width: 6, height: 16 }));
+    defs.appendChild(p1); defs.appendChild(p2);
+    svg.insertBefore(defs, svg.firstChild);
+  }
   $('open-collection').addEventListener('click', function () {
     loadMap().then(function () {
       var svg = mountMap($('col-map'));
       var list = Calc.learned(stats);
-      list.forEach(function (c) { pathOf(svg, c).classList.add('learned'); });
+      addStepPatterns(svg);
+      Object.keys(stats).forEach(function (c) {
+        var s = Calc.step(stats[c]), p = pathOf(svg, c);
+        if (p && s > 0) p.classList.add(s === 3 ? 'learned' : 'step' + s);
+      });
       $('col-count').textContent = list.length + ' / 47 おぼえたよ';
       show('scr-collection');
     });
