@@ -179,9 +179,9 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 .js-loading .app-main { visibility: hidden; }
 body.playing .app-header { padding: 0.5rem 1rem; }
 body.playing .app-header h1 { font-size: 1.05rem; }
-:root { --sea: #d6ecf5; --land: #f3e6d8; --land-line: #8b4513; --ok: #2e7d32; --ng: #c62828; --target: #f2b233; --learned: #7cb342; --step1: #bcd99c; --step2: #9bc56e; --step-ink: #2a5418; }
+:root { --sea: #d6ecf5; --land: #f3e6d8; --land-line: #8b4513; --ok: #2e7d32; --ng: #c62828; --target: #f2b233; --learned: #7cb342; --step1: #bcd99c; --step2: #9bc56e; --step-ink: #2a5418; --step2-line: var(--land-line); }
 @media (prefers-color-scheme: dark) {
-  :root { --sea: #1d2a33; --land: #3a2e22; --land-line: #e0a066; --ok: #81c784; --ng: #ef9a9a; --target: #d9a520; --learned: #558b2f; --step1: #375123; --step2: #466d29; --step-ink: #dcedc8; }
+  :root { --sea: #1d2a33; --land: #3a2e22; --land-line: #e0a066; --ok: #81c784; --ng: #ef9a9a; --target: #d9a520; --learned: #558b2f; --step1: #375123; --step2: #466d29; --step-ink: #dcedc8; --step2-line: var(--step-ink); }   /* ダークの 2 回の地 --step2 と --land-line は 2.70。--step-ink なら 4.88（Q-410） */
 }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .app-main { max-width: 820px; }
@@ -229,7 +229,7 @@ rt { font-size: 0.55em; }
 .map-wrap path.ng { fill: var(--ng); }
 .map-wrap path.learned { fill: var(--learned); stroke: var(--step-ink); }   /* 3 回以上の県どうしの境を見せる。--land-line では塗りとの対比がライト 2.83・ダーク 1.83（Q-390） */
 .map-wrap path.step1 { fill: url(#step1-pat); }
-.map-wrap path.step2 { fill: url(#step2-pat); }
+.map-wrap path.step2 { fill: url(#step2-pat); stroke: var(--step2-line); }
 .map-wrap .step-bg1 { fill: var(--step1); }
 .map-wrap .step-bg2 { fill: var(--step2); }
 .map-wrap .step-ink { fill: var(--step-ink); }

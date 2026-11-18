@@ -10,7 +10,7 @@
 'use strict';
 
 const CACHE_PREFIX = 'todofuken-quiz-';
-const CACHE_NAME   = `${CACHE_PREFIX}v6`; // キャッシュする中身の構成を変えたら上げる（v4: 共通の部品 yorozu-common v1、v5: おぼえた ちず の 4 段、v6: 3 回以上の県境の線）
+const CACHE_NAME   = `${CACHE_PREFIX}v7`; // キャッシュする中身の構成を変えたら上げる（v4: 共通の部品 yorozu-common v1、v5: おぼえた ちず の 4 段、v6: 3 回以上の県境の線、v7: ダークの 2 回の県境の線）
 
 /** 初回インストール時に取得しておくファイル */
 const PRECACHE_URLS = [
