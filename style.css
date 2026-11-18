@@ -237,6 +237,12 @@ rt { font-size: 0.55em; }
 .map-wrap .inset-frame { fill: none; stroke: var(--land-line); stroke-dasharray: 6 4; vector-effect: non-scaling-stroke; }
 .map-wrap .marker { fill: none; stroke: var(--target); stroke-width: 4; vector-effect: non-scaling-stroke; pointer-events: none; }
 .map-wrap .marker.ok { stroke: var(--ok); }
+/* キーボードで今いる県の輪（地図に Tab で入っているときだけ）。線 3 px の --focus-ring を、幅 7 px の --focus で縁取る
+   （共通の土台のフォーカスの輪と同じ 2 色。答えた後の塗り〈ダークの ok・ng〉の上でも輪が見えるように） */
+.map-wrap .kbd-ring { fill: none; pointer-events: none; vector-effect: non-scaling-stroke; stroke-linejoin: round; }
+.map-wrap .kbd-halo { stroke: var(--focus); stroke-width: 7; }
+.map-wrap .kbd-line { stroke: var(--focus-ring); stroke-width: 3; }
+.map-wrap svg:not(:focus-visible) .kbd-ring { display: none; }
 @keyframes blink { from { opacity: 1; } to { opacity: 0.55; } }
 @media (prefers-reduced-motion: reduce) { .map-wrap path.target { animation: none; } }
 .shape-wrap { display: flex; justify-content: center; background: var(--sea); border-radius: 12px; padding: 1rem; margin: 0.5rem 0; }
