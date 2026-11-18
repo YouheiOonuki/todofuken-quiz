@@ -123,6 +123,42 @@
     return out;
   }
 
+  // --- 地図をキーボードで選ぶ（「さがして タッチ」。県の形は大きくせず、矢印キーで県を移る） ---
+  /** 県の形（map.svg の path の d。M と Z と点だけ）から、いちばん大きい島の箱のまん中を出す。
+   *  県全体の箱のまん中だと、飛び地・離島のある 9 県で形の外に落ちる（鹿児島は奄美、沖縄は差し込みの枠いっぱい） */
+  function shapeCenter(d) {
+    var best = null, bestArea = -1;
+    String(d).split('Z').forEach(function (s) {
+      var pts = s.replace('M', '').trim().split(/\s+/).filter(Boolean).map(function (p) { return p.split(',').map(Number); });
+      if (pts.length < 3) return;
+      var a = 0;
+      for (var i = 0, j = pts.length - 1; i < pts.length; j = i++) a += (pts[j][0] + pts[i][0]) * (pts[j][1] - pts[i][1]);
+      a = Math.abs(a / 2);
+      if (a > bestArea) { bestArea = a; best = pts; }
+    });
+    if (!best) return null;
+    var xs = best.map(function (p) { return p[0]; }), ys = best.map(function (p) { return p[1]; });
+    return [(Math.min.apply(null, xs) + Math.max.apply(null, xs)) / 2, (Math.min.apply(null, ys) + Math.max.apply(null, ys)) / 2];
+  }
+
+  var DIRS = { left: [-1, 0], right: [1, 0], up: [0, -1], down: [0, 1] };
+  /** from の県から dir の向き（その向きの ±45° の中）で、中心がいちばん近い県。無ければ null（動かない）。
+   *  centers は { code: [x, y] }、codes は選べる県（地方で絞っているときはその地方の県） */
+  function nextPref(centers, codes, from, dir) {
+    var v = DIRS[dir], c0 = centers[from];
+    if (!v || !c0) return null;
+    var best = null, bestD = Infinity;
+    codes.forEach(function (code) {
+      if (code === from || !centers[code]) return;
+      var dx = centers[code][0] - c0[0], dy = centers[code][1] - c0[1];
+      var along = dx * v[0] + dy * v[1], side = Math.abs(dx * v[1] - dy * v[0]);
+      if (along <= 0 || along < side) return;
+      var dist = Math.hypot(dx, dy);
+      if (dist < bestD) { bestD = dist; best = code; }
+    });
+    return best;
+  }
+
   // --- バックアップファイル（README「ツールを追加するとき」20。決定 D31） ---
   // 形式: { tool, version, exportedAt, data }。data はブラウザに保存しているものと同じ形
   var BACKUP_VERSION = 1;
@@ -163,7 +199,7 @@
     return { ok: true, data: data };
   }
 
-  var Calc = { ruby: ruby, rng: rng, shuffle: shuffle, MODES: MODES, candidates: candidates, makeRound: makeRound, isCorrect: isCorrect, record: record, learned: learned, step: step, normalizeStats: normalizeStats, backupFileName: backupFileName, buildBackup: buildBackup, parseBackup: parseBackup };
+  var Calc = { ruby: ruby, rng: rng, shuffle: shuffle, MODES: MODES, candidates: candidates, makeRound: makeRound, isCorrect: isCorrect, record: record, learned: learned, step: step, normalizeStats: normalizeStats, shapeCenter: shapeCenter, nextPref: nextPref, backupFileName: backupFileName, buildBackup: buildBackup, parseBackup: parseBackup };
   if (typeof module !== 'undefined' && module.exports) module.exports = Calc;
   else root.Calc = Calc;
 })(this);

@@ -117,6 +117,46 @@
     svg.setAttribute('viewBox', [x1 - pad, y1 - pad, x2 - x1 + pad * 2, y2 - y1 + pad * 2].join(' '));
   }
   function pathOf(svg, code) { return svg.querySelector('path[data-code="' + code + '"]'); }
+
+  // --- 地図をキーボードで（「さがして タッチ」だけ。県の形は大きくしない） ---
+  // 地図の Tab の止まりは svg の 1 つ。矢印キーで今いる県を移し、Enter・Space で押したのと同じ pick を呼ぶ。
+  // 今いる県は輪で見せる（キーボードで地図に入っているときだけ）。県の名前は読み上げに出さない（探すのが問題）
+  var centers = null;   // { code: [x, y] }。map.svg の形から 1 回だけ出す（Calc.shapeCenter）
+  var kbdCode = null;   // 今いる県。問題が替わっても動かさない
+  function mapCenters(svg) {
+    if (!centers) {
+      centers = {};
+      svg.querySelectorAll('path[data-code]').forEach(function (p) { centers[+p.getAttribute('data-code')] = Calc.shapeCenter(p.getAttribute('d')); });
+    }
+    return centers;
+  }
+  function kbdCodes() {
+    return D.PREFS.filter(function (p) { return !settings.regions.length || settings.regions.indexOf(p.region) >= 0; }).map(function (p) { return p.code; });
+  }
+  function drawRing(svg) {
+    svg.querySelectorAll('.kbd-ring').forEach(function (e) { e.remove(); });
+    var src = pathOf(svg, kbdCode);
+    if (!src) return;
+    ['kbd-halo', 'kbd-line'].forEach(function (cls) {
+      var r = src.cloneNode(false);
+      r.removeAttribute('id'); r.removeAttribute('data-code'); r.removeAttribute('data-region');
+      r.setAttribute('class', 'kbd-ring ' + cls);
+      r.setAttribute('aria-hidden', 'true');
+      svg.appendChild(r);
+    });
+  }
+  function onMapKey(e) {
+    if (!round || round.qs[round.i].mode !== 'touch' || e.altKey || e.ctrlKey || e.metaKey) return;
+    var dir = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down' }[e.key];
+    if (dir) {
+      e.preventDefault();
+      var n = Calc.nextPref(mapCenters(playSvg), kbdCodes(), kbdCode, dir);
+      if (n) { kbdCode = n; drawRing(playSvg); }
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      pick(kbdCode);
+    }
+  }
   function clearMarks(svg) {
     svg.querySelectorAll('path').forEach(function (p) { p.classList.remove('target', 'ok', 'ng', 'dim'); });
     var m = svg.querySelector('.marker'); if (m) m.remove();
@@ -183,6 +223,7 @@
       playSvg = mountMap($('map-wrap'));
       fitRegions(playSvg, settings.regions);
       playSvg.addEventListener('click', onMapTap);
+      playSvg.addEventListener('keydown', onMapKey);
       ask();
     });
   }
@@ -211,6 +252,15 @@
     if (shape) drawShape(q.code);
     if (q.mode === 'name' || q.mode === 'capital') { pathOf(playSvg, q.code).classList.add('target'); marker(playSvg, q.code); }
     $('map-wrap').classList.toggle('tappable', q.mode === 'touch');
+    if (q.mode === 'touch') {
+      var codes = kbdCodes();
+      mapCenters(playSvg);
+      if (codes.indexOf(kbdCode) < 0) kbdCode = codes[0];
+      playSvg.setAttribute('tabindex', '0');
+      drawRing(playSvg);
+    } else {
+      playSvg.removeAttribute('tabindex');
+    }
     renderChoices(q);
     if (settings.speech) speak(questionText(q));
   }
@@ -248,9 +298,13 @@
   }
 
   function onMapTap(e) {
-    if (!round || round.answered || round.qs[round.i].mode !== 'touch') return;
     var p = e.target.closest('path[data-code]');
-    if (p) answer(+p.getAttribute('data-code'));
+    if (p) pick(+p.getAttribute('data-code'));
+  }
+  // 地図の県を選んで答える（押したとき・キーボードの Enter・Space の両方がここを通る）
+  function pick(code) {
+    if (!round || round.answered || round.qs[round.i].mode !== 'touch') return;
+    answer(code);
   }
 
   function answer(code, btn) {
