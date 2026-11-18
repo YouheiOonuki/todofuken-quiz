@@ -171,7 +171,7 @@ html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
   border-top: 1px solid var(--border);
   margin-top: 0.5rem;
 }
-.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.4rem 1.1rem; margin-bottom: 0.6rem; }
+.footer-nav ul { list-style: none; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.5rem 1.1rem; margin-bottom: 0.6rem; }
 .footer-nav a { color: var(--muted); text-decoration: none; }
 .footer-nav a:hover, .footer-nav a[aria-current="page"] { color: var(--accent); }
 
@@ -203,18 +203,19 @@ rt { font-size: 0.55em; }
 
 .settings fieldset { border: none; margin: 0 0 0.9rem; }
 .settings legend { font-weight: 700; margin-bottom: 0.4rem; }
-.chips { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .chip { min-height: 44px; padding: 0.35rem 0.9rem; border-radius: 999px; border: 2px solid var(--border); background: var(--card); color: var(--text); font-size: 1rem; cursor: pointer; }
 .chip.on { background: var(--accent); border-color: var(--accent); color: var(--card); font-weight: 700; }
 .seg { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .seg label { display: inline-flex; align-items: center; gap: 0.35rem; min-height: 44px; padding: 0.3rem 0.8rem; border: 2px solid var(--border); border-radius: 10px; font-size: 1rem; cursor: pointer; }
 .seg input { width: 1.2rem; height: 1.2rem; accent-color: var(--accent); }
 .parent-link { text-align: center; margin-top: 0.5rem; font-size: 0.9rem; }
+.parent-link a { display: inline-flex; align-items: center; min-height: 44px; }
 
-.play-bar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.4rem; }
+.play-bar { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.5rem; }
 .progress { font-weight: 700; }
 .score { color: var(--accent); font-weight: 700; }
-.btn-ghost { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.8rem; color: var(--muted); cursor: pointer; min-height: 40px; }
+.btn-ghost { margin-left: auto; background: none; border: 1px solid var(--border); border-radius: 8px; padding: 0.35rem 0.8rem; color: var(--muted); cursor: pointer; min-height: 44px; }
 .question-row { display: flex; align-items: center; gap: 0.5rem; }
 .question { font-size: 1.35rem; font-weight: 700; line-height: 1.9; flex: 1; }
 .speak { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--border); background: var(--card); font-size: 1.3rem; cursor: pointer; flex: none; }
