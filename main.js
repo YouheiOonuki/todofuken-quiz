@@ -87,7 +87,9 @@
   function loadMap() {
     return mapText ? Promise.resolve(mapText) : fetch('./map.svg').then(function (r) { return r.text(); }).then(function (t) { mapText = t; return t; });
   }
-  function mountMap(box) {
+  // 県の title（マウスを載せると出る県名）は、withNames のときだけ（おぼえた ちず）。
+  // 出題の地図には作らない —— 答える前に県名を出さない（Q-567。県名は答えた後の #feedback が出す）
+  function mountMap(box, withNames) {
     box.innerHTML = mapText.replace(/<!--[\s\S]*?-->/, '');
     var svg = box.querySelector('svg');
     svg.setAttribute('role', 'img');
@@ -95,6 +97,7 @@
     svg.querySelectorAll('path').forEach(function (p) {
       var pref = PREF[+p.getAttribute('data-code')];
       p.setAttribute('data-region', pref.region);
+      if (!withNames) return;
       var t = document.createElementNS('http://www.w3.org/2000/svg', 'title');
       t.textContent = Calc.ruby(pref.name, 'kanji');
       p.appendChild(t);
@@ -154,7 +157,7 @@
       if (n) { kbdCode = n; drawRing(playSvg); }
     } else if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
-      pick(kbdCode);
+      pick(kbdCode, true);
     }
   }
   function clearMarks(svg) {
@@ -212,7 +215,7 @@
   });
 
   // --- 出題 ---
-  var round = null;   // { mode, qs, i, score, miss: [], answered }
+  var round = null;   // { mode, qs, i, score, miss: [], answered, byKey }
   var playSvg = null;
 
   function start(mode) {
@@ -240,6 +243,7 @@
   function ask() {
     var q = round.qs[round.i];
     round.answered = false;
+    round.byKey = false;
     $('progress').textContent = (round.i + 1) + ' / ' + round.qs.length + ' もんめ';
     $('score').textContent = '⭐ ' + round.score;
     setR($('question'), questionText(q));
@@ -276,7 +280,6 @@
     svg.setAttribute('role', 'img'); svg.setAttribute('aria-label', 'けんの かたち');
     var p = src.cloneNode(true);
     p.removeAttribute('class');
-    var t = p.querySelector('title'); if (t) t.remove();
     p.setAttribute('class', 'shape');
     p.style.strokeWidth = Math.max(b.width, b.height) / 150;
     svg.appendChild(p);
@@ -302,8 +305,10 @@
     if (p) pick(+p.getAttribute('data-code'));
   }
   // 地図の県を選んで答える（押したとき・キーボードの Enter・Space の両方がここを通る）
-  function pick(code) {
+  // キーボードで答えたときは、「つぎへ」の後に地図へ戻す（byKey。マウス・タッチのときは戻さない。Q-567）
+  function pick(code, byKey) {
     if (!round || round.answered || round.qs[round.i].mode !== 'touch') return;
+    round.byKey = !!byKey;
     answer(code);
   }
 
@@ -343,8 +348,11 @@
   }
 
   $('next').addEventListener('click', function () {
+    var back = round.byKey;
     round.i += 1;
-    if (round.i < round.qs.length) ask(); else finish();
+    if (round.i >= round.qs.length) { finish(); return; }
+    ask();
+    if (back && round.qs[round.i].mode === 'touch') playSvg.focus();
   });
   $('speak').addEventListener('click', function () { if (round) speak(questionText(round.qs[round.i])); });
   $('quit').addEventListener('click', function () { if (canSpeak) speechSynthesis.cancel(); round = null; renderMenu(); show('scr-menu'); });
@@ -388,7 +396,7 @@
   }
   $('open-collection').addEventListener('click', function () {
     loadMap().then(function () {
-      var svg = mountMap($('col-map'));
+      var svg = mountMap($('col-map'), true);
       var list = Calc.learned(stats);
       addStepPatterns(svg);
       Object.keys(stats).forEach(function (c) {

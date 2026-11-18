@@ -81,5 +81,25 @@ test('地図のキー: 画面は地図に Tab の止まりを 1 つだけ置き�
   const main = fs.readFileSync(path.join(__dirname, '..', 'main.js'), 'utf8');
   assert.equal((main.match(/setAttribute\('tabindex'/g) || []).length, 1, 'tabindex を付けるのは svg の 1 か所');
   assert.ok(!/aria-label', *(?:Calc\.ruby\()?pref/.test(main), '県に aria-label を足していない');
-  assert.ok(/pick\(kbdCode\)/.test(main) && /pick\(\+p\.getAttribute\('data-code'\)\)/.test(main), 'Enter と押したのが同じ pick を通る');
+  assert.ok(/pick\(kbdCode, true\)/.test(main) && /pick\(\+p\.getAttribute\('data-code'\)\)/.test(main), 'Enter と押したのが同じ pick を通る（キーボードの時だけ印を付ける）');
+});
+
+// Q-567: 答える前に県名を出さない（読み上げにも、マウスを載せた時のツールチップにも）
+test('地図の名前: 出題の地図には県の title を作らず、作るのは「おぼえた ちず」だけ', () => {
+  const main = fs.readFileSync(path.join(__dirname, '..', 'main.js'), 'utf8');
+  const mounts = [...main.matchAll(/mountMap\(\$\('([\w-]+)'\)(, true)?\)/g)].map((m) => [m[1], !!m[2]]);
+  assert.deepEqual(mounts, [['map-wrap', false], ['col-map', true]], '出題の地図は名前なし、おぼえた ちずは名前あり');
+  const body = main.slice(main.indexOf('function mountMap('), main.indexOf('function fitRegions('));
+  assert.ok(/if \(!withNames\) return;\s*var t = document\.createElementNS\([^)]*'title'\)/.test(body), 'title を作るのは withNames の時だけ');
+  assert.equal((main.match(/'title'\)/g) || []).length, 1, 'title を作る・引くのは mountMap の 1 か所だけ');
+  assert.equal((svg.match(/<title/g) || []).length, 0, 'map.svg そのものにも title は無い');
+});
+
+test('地図のキー: キーボードで答えた問題は、「つぎへ」の後に地図へ戻る（マウス・タッチの時は戻さない）', () => {
+  const main = fs.readFileSync(path.join(__dirname, '..', 'main.js'), 'utf8');
+  const next = main.slice(main.indexOf("$('next').addEventListener"), main.indexOf("$('speak').addEventListener"));
+  assert.ok(/var back = round\.byKey;/.test(next), '押す前の問題の印を取る');
+  assert.ok(/ask\(\);\s*if \(back && round\.qs\[round\.i\]\.mode === 'touch'\) playSvg\.focus\(\);/.test(next), '次の問題を出した後、地図にフォーカス');
+  assert.ok(/round\.answered = false;\s*round\.byKey = false;/.test(main), '問題ごとに印を消す');
+  assert.ok(/round\.byKey = !!byKey;\s*answer\(code\);/.test(main), '印を付けるのは pick だけ（選択肢のボタンは pick を通らない）');
 });
