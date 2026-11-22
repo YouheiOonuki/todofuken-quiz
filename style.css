@@ -260,7 +260,7 @@ rt { font-size: 0.55em; }
 .choice.ok { background: var(--ok); color: #fff; border-color: var(--ok); }
 .choice.ng { background: var(--ng); color: #fff; border-color: var(--ng); }
 .choice:disabled { cursor: default; }
-.feedback { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 1rem; margin-top: 0.6rem; text-align: center; }
+.feedback { background: var(--card); border: 2px solid var(--border); border-radius: 14px; padding: 1rem; margin-top: 0.6rem; text-align: center; scroll-margin-bottom: 0.5rem; }   /* 送った後、帯の下に 8 px 空ける（Q-933） */
 .fb-title { font-size: 1.6rem; font-weight: 700; }
 .fb-title.ok { color: var(--ok); } .fb-title.ng { color: var(--ng); }
 .fb-body { font-size: 1.05rem; line-height: 2; margin: 0.4rem 0 0.8rem; text-align: left; }

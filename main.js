@@ -343,7 +343,9 @@
     setR($('fb-body'), body);
     $('next').textContent = round.i + 1 < round.qs.length ? 'つぎへ' : 'けっかを みる';
     $('feedback').hidden = false;
-    $('next').focus();
+    // 帯の下端まで画面に入れる。focus() だけだと「つぎへ」の押す所までしか送らず、帯の下が切れた（390×844 で 18 px。Q-933）
+    $('next').focus({ preventScroll: true });
+    $('feedback').scrollIntoView({ block: 'nearest' });
     if (settings.speech) speak((ok ? 'せいかい。' : 'ざんねん。こたえは ') + p.name);
   }
 
