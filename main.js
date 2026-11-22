@@ -343,7 +343,9 @@
     setR($('fb-body'), body);
     $('next').textContent = round.i + 1 < round.qs.length ? 'つぎへ' : 'けっかを みる';
     $('feedback').hidden = false;
-    $('next').focus();
+    // 帯の下端まで画面に入れる。focus() だけだと「つぎへ」の押す所までしか送らず、帯の下が切れた（390×844 で 18 px。Q-933）
+    $('next').focus({ preventScroll: true });
+    $('feedback').scrollIntoView({ block: 'nearest' });
     if (settings.speech) speak((ok ? 'せいかい。' : 'ざんねん。こたえは ') + p.name);
   }
 
@@ -353,6 +355,8 @@
     if (round.i >= round.qs.length) { finish(); return; }
     ask();
     if (back && round.qs[round.i].mode === 'touch') playSvg.focus();
+    // 帯を送った分だけ下に居るので、上へ戻して次の設問を画面に入れる（700 の高さで設問が上に隠れた。Q-945）
+    window.scrollTo(0, 0);
   });
   $('speak').addEventListener('click', function () { if (round) speak(questionText(round.qs[round.i])); });
   $('quit').addEventListener('click', function () { if (canSpeak) speechSynthesis.cancel(); round = null; renderMenu(); show('scr-menu'); });
