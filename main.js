@@ -355,6 +355,8 @@
     if (round.i >= round.qs.length) { finish(); return; }
     ask();
     if (back && round.qs[round.i].mode === 'touch') playSvg.focus();
+    // 帯を送った分だけ下に居るので、上へ戻して次の設問を画面に入れる（700 の高さで設問が上に隠れた。Q-945）
+    window.scrollTo(0, 0);
   });
   $('speak').addEventListener('click', function () { if (round) speak(questionText(round.qs[round.i])); });
   $('quit').addEventListener('click', function () { if (canSpeak) speechSynthesis.cancel(); round = null; renderMenu(); show('scr-menu'); });
