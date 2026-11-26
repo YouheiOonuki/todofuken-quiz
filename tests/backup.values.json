@@ -1,0 +1,27 @@
+{
+  "module": "calc.js",
+  "tool": "todofuken-quiz",
+  "data": {
+    "settings": {
+      "level": "ruby",
+      "regions": [
+        "kanto"
+      ],
+      "sound": false,
+      "speech": false
+    },
+    "stats": {
+      "13": {
+        "ok": 3,
+        "ng": 1
+      },
+      "47": {
+        "ok": 1,
+        "ng": 2
+      }
+    }
+  },
+  "required": [
+    "stats"
+  ]
+}
